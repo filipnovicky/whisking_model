@@ -1,4 +1,4 @@
-function mdp = generate_mdp_serotonin(T,zeta,rho,design)
+function mdp = generate_mdp_serotonin(T,zeta,rho,design,starting_position)
 
 addpath 'D:\PhD\spm12'
 addpath 'D:\PhD\spm12\toolbox\DEM'
@@ -9,27 +9,20 @@ addpath 'D:\PhD\model development\script'
 Description:
 
 Free whisking is always under complete uncertainty (dark room problem).
-When next to the object, fully and partially protracted positions generate
+When next to the platform, fully and partially protracted positions generate
 2 different sensory outcomes, which are used for identifying the 
-object. Interestingly, these two protracted positions perceive the sensory
+object. These two protracted positions perceive the sensory
 outcomes under different probability distribution, where the partially protracted hidden
-state is more accurate, as it does not have to go through other states on
-the cube as the fully protracted motion does.
+state is fully precise.
 %}
 % Set up:
 
 % beta = 0.10;
 s(2,1) = design; % Experimental design whether the agent is next to (1) or far away (2)
 
-% if design == 2
-%     mdp.o(1,:) = 1;
-%     mdp.o(2,1) = 1;
-% end
-% from the platform
-
 % Initial matrix D P(s)
 
-D{1} = [1 0 0 0 0 0]'; % {WHISKER FLOW - y axis}[protraction2; protraction1;
+D{1} = starting_position; %[protraction2; protraction1;
 % retraction 1; retraction2; retraction1; protraction1]
 
 D{2} = [0 1]'; % Context[next to, or far from, the object]
@@ -89,6 +82,8 @@ for f1 = 1:Ns(1) % Body control [completely protracted <-> completely retracted]
         B{2} = eye(Ns(2));
     end
 end
+% b{1} = B{1};
+% b{2} = spm_softmax(rho*log(B{2} +exp(-8)));
 
 E = [0.6 0.4]';
 E = spm_softmax(rho*log(E));
@@ -104,8 +99,10 @@ mdp.U = U;
 mdp.A = A;
 mdp.a = a;
 mdp.B = B;
+% mdp.b = b;
 mdp.D = D;
 mdp.E = E;
+% mdp.e = e;
 mdp.s = s;
 mdp.eta = 0;
 mdp.beta = 1;
