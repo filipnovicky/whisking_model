@@ -89,11 +89,15 @@ phi = 4*phi/std(phi) + 16;
 
 hold on
 subplot(3,3,6+ze)
-imagesc(t,Hz,csd), axis xy, hold on
-plot(t,phi,'w'), hold off
+imagesc(t,Hz,csd), axis xy
+hold on
+plot(t,phi,'w')
+hold off
 
 ax = gca;
 ax.XTickLabel = ax.XTick*1000/T*1.2;
+
+ax.YTickLabel = ax.YTick*0.1;
 caxis([0 0.1])
 
 lgnd = legend('\color{white} LFP','box', 'off',Location='northeast');

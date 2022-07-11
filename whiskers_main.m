@@ -15,12 +15,13 @@ if ~exist(path, 'dir')
 end
 
 rng('default')
+
 % Select a simulation
 % RUN ONLY ONE SIMULATION PER TIME
 
 Sim_habits     = 0; % Simulate a modulation of habits if 1
 Sim_precision  = 0; % Simulate a modulation of somatosensory precision if 1
-Sim_comparison = 0; % Simulate a face validity of far and near conditions if 1
+Sim_comparison = 1; % Simulate a face validity of far and near conditions if 1
 Sim_timeplot   = 0; % Simulate a range of all precision interactions if 1
 
 
@@ -45,7 +46,7 @@ elseif Sim_precision == 1
     N = 1;
     T = 16;
     % Feel free to change:
-    design = 2; % 1 == near condition; 2 == far condition
+    design = 1; % 1 == near condition; 2 == far condition
     RHO = 0.5;
     ZETA = [0.01 0.5 2];
 
@@ -95,7 +96,7 @@ if Sim_comparison == 1
         plot(interp1(policy_posterior(i,:),xq,"spline"))
     end
     box on
-    legend('Small Amplitude', 'Large Amplitude')
+    legend('Large Amplitude', 'Small Amplitude')
 
     title('Posterior Policy Probability', 'fontsize',12)
 
@@ -123,7 +124,7 @@ if Sim_comparison == 1
     title('Posterior Policy Probability','fontsize',12)
 
     xlabel('Time (ms)','fontsize',12)
-    legend('Small Amplitude', 'Large Amplitude')
+    legend('Large Amplitude', 'Small Amplitude')
     ylim([0 1.5])
     ax = gca;
     ax.XTickLabel = ax.XTick*0.3125*T*0.04; % Set up the time on the x-axis
@@ -266,7 +267,7 @@ if Sim_timeplot == 1 % Simulate discrete heatmaps
 
 elseif Sim_timeplot == 0 && Sim_comparison == 0
     hold on
-    MDP_whisking_plot(o,labels,T)
+%     MDP_whisking_plot(o,labels,T)
 
 end
 
