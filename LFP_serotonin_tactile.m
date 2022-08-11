@@ -1,4 +1,4 @@
-function [u,v] = LFP_serotonin_tactile(MDP,ze,T)
+function [u,v] = LFP_serotonin_tactile(MDP,ze)
 
 % This function is taken from spm_MDP_VB_LFP and the original copright
 % belongs to Karl Friston. See the original for more details.
@@ -73,8 +73,8 @@ for i = 1:Nt
     %             str{j} = sprintf('%s: t=%i',MDP(1).label.name{f}{ALL(1,j)},ALL(2,j));
 end
 z{i,1} = zj;
-x{i,1} = xj;
-dt  = 1/64;                              % time bin (seconds)
+x{i,1} = xj; % for plotting the responses over the object detection change this to x{i,2}
+dt  = 1/856;                              % time bin (seconds)
 t   = (1:(Nb*Ne*Nt))*dt;                 % time (seconds)
 Hz  = 4:32;                              % frequency range
 n   = 1/(4*dt);                          % window length
@@ -91,14 +91,17 @@ hold on
 subplot(3,3,6+ze)
 imagesc(t,Hz,csd), axis xy
 hold on
-plot(t,phi,'w')
+plot(t,lfp,'w')
 hold off
-
+% 
 ax = gca;
-ax.XTickLabel = ax.XTick*1000/T*1.2;
+ax.XTickLabel = ax.XTick;
+ax.XTickLabel = ax.XTick*1000;
 
-ax.YTickLabel = ax.YTick*0.1;
-caxis([0 0.1])
+% ax.YTickLabel = ax.YTick*0.1;
+caxis([0 0.04])
+% caxis([0 0.1])
+
 
 lgnd = legend('\color{white} LFP','box', 'off',Location='northeast');
 set(lgnd,'color','none')

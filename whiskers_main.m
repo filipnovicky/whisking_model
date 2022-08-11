@@ -14,14 +14,13 @@ if ~exist(path, 'dir')
     mkdir(path)
 end
 
-rng('default')
 
 % Select a simulation
 % RUN ONLY ONE SIMULATION PER TIME
 
-Sim_habits     = 0; % Simulate a modulation of habits if 1
+Sim_habits     = 1; % Simulate a modulation of habits if 1
 Sim_precision  = 0; % Simulate a modulation of somatosensory precision if 1
-Sim_comparison = 1; % Simulate a face validity of far and near conditions if 1
+Sim_comparison = 0; % Simulate a face validity of far and near conditions if 1
 Sim_timeplot   = 0; % Simulate a range of all precision interactions if 1
 
 
@@ -62,6 +61,13 @@ elseif Sim_timeplot == 1
     N = 1;
     T = 16;
 end
+
+if Sim_comparison || Sim_precision || Sim_habits == 1
+    rng('default') % For reproducibility
+else
+    rng('shuffle') % Introducing randomness for the analysis
+end
+
 
 % Random whisker protraction position for temporal analysis
 starting_position = [1 0 0 0 0 0]';
@@ -159,14 +165,14 @@ if Sim_comparison == 0
                 % Simulate LFP signals for pre-specified zetas
                 if ze == 1
                     spm_figure('GetWin','LFP figure')
-                    LFP_serotonin_tactile(MDP(1),ze,T)
+                    LFP_serotonin_tactile(MDP(1),ze)
                 elseif ze == 2
                     hold on
-                    LFP_serotonin_tactile(MDP(1),ze,T)
+                    LFP_serotonin_tactile(MDP(1),ze)
 
                 elseif ze == 3
                     hold on
-                    LFP_serotonin_tactile(MDP(1),ze,T)
+                    LFP_serotonin_tactile(MDP(1),ze)
 
                 end
                 labels = {'Low tactile precision','Medium tactile precision','High tactile precision'};
@@ -179,15 +185,15 @@ if Sim_comparison == 0
                 if e == 1
                     spm_figure('GetWin','LFP figure')
 
-                    LFP_serotonin_tactile(MDP(1),e,T)
+                    LFP_serotonin_tactile(MDP(1),e)
 
                 elseif e == 2
                     hold on
-                    LFP_serotonin_tactile(MDP(1),e,T)
+                    LFP_serotonin_tactile(MDP(1),e)
 
                 elseif e == 3
                     hold on
-                    LFP_serotonin_tactile(MDP(1),e,T)
+                    LFP_serotonin_tactile(MDP(1),e)
 
                 end
                 labels = {'Weak habitual precision','Medium habitual precision','Strong habitual precision'};
